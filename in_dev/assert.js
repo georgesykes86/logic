@@ -11,11 +11,11 @@ var expect = function (value1) {
 function it (description, callBack) {
   try {
     callBack()
-    console.log(`%c${description}`, 'color: green')
+    console.log(`  %c${description}`, 'color: green')
   }
   catch(err) {
-    console.log(`%c${description}`, 'color: red')
-    console.log(`%c${err.stack}`, 'color: red')
+    console.log(`  %c${description}`, 'color: red')
+    console.log(`  %c${err.stack}`, 'color: red')
   }
 }
 
