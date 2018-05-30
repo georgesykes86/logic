@@ -47,3 +47,5 @@ expect(_log.history[2]).toEqual('%ctest description')
 expect(_log.history[3]).toEqual('text-decoration: underline')
 
 expect(_log.history[4].toString()).toEqual('Error: I AM AN ERROR')
+
+console.log = oldLog
