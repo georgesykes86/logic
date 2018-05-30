@@ -30,5 +30,3 @@ function describe (description, callback){
     return
   }
 }
-
-// export { expect, it };
