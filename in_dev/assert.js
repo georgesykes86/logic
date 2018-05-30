@@ -14,18 +14,17 @@ function it (description, callBack) {
     console.log(`%c${description}`, 'color: green')
   }
   catch(err) {
-    throw err
+    console.log(`%c${description}`, 'color: red')
+    console.log(`%c${err.stack}`, 'color: red')
   }
 }
 
 function describe (description, callback){
   try {
+    console.log(`%c${description}`, 'text-decoration: underline')
     callback()
-    console.log(`%c${description}`, 'color: green')
   }
   catch(err) {
-    console.log(`%c${description}`, 'color: red')
-    console.log(`%c${err.stack}`, 'color: red')
-    return
+    console.log(err)
   }
 }
