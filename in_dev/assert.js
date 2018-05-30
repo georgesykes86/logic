@@ -20,12 +20,11 @@ function it (description, callBack) {
 
 function describe (description, callback){
   try {
-    console.log(`%c${description}`, 'color: blue')
     callback()
+    console.log(`%c${description}`, 'color: green')
   }
   catch(err) {
     console.log(`%c${description}`, 'color: red')
-    console.log(`%c${err.message}`, 'color: red')
     console.log(`%c${err.stack}`, 'color: red')
     return
   }
