@@ -38,14 +38,8 @@ function failTests(){
     [null, undefined]
   ]
 
-  var failingTestCounter = 0
-
-  tests.forEach(function(testPair) {
-    var result = toEqualTest(testPair, function() {
-      expect(testPair[0]).toEqual(testPair[1])
-    });
-    if (result === 0) { failingTestCounter +=1 }
-  });
+  var testType = "fail"
+  var failingTestCounter = equalityCheck(tests, testType);
 
   if (failingTestCounter !== 0){
     console.log(`%c Number of incorrectly passing tests = ${failingTestCounter}`, 'color: red')
@@ -65,18 +59,33 @@ function passTests(){
     [1+2, 3]
   ]
 
-  var passingTestCounter = 0
+  var testType = "pass"
+  var passingTestCounter = equalityCheck(tests, testType);
+
+  if (passingTestCounter !== 0){
+      console.log(`%c Number of incorrectly failing tests = ${passingTestCounter}`, 'color: red')
+  }
+
+}
+
+function equalityCheck(tests, testType){
+
+  var Counter = 0
 
   tests.forEach(function(testPair) {
     var result = toEqualTest(testPair, function() {
       expect(testPair[0]).toEqual(testPair[1])
     });
 
-    if (result !== 0) { passingTestCounter += 1 }
-  });
+    if (testType == "pass"){
+      if (result !== 0) { Counter += 1 }
+    }  else {
+      if (result === 0) { Counter += 1 }
+    }
 
-  if (passingTestCounter !== 0){
-      console.log(`%c Number of incorrectly failing tests = ${passingTestCounter}`, 'color: red')
-  }
+
+  })
+
+  return Counter
 
 }
