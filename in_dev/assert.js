@@ -14,9 +14,19 @@ function it (description, callBack) {
     console.log(`%c${description}`, 'color: green')
   }
   catch(err) {
-    console.log(`%c${description}`, 'color: red')
-    console.log(`%c${err.message}`, 'color: red')
+    throw err
   }
 }
 
-export { expect, it };
+function describe (description, callback){
+  try {
+    console.log(`%c${description}`, 'color: blue')
+    callback()
+  }
+  catch(err) {
+    console.log(`%c${description}`, 'color: red')
+    console.log(`%c${err.message}`, 'color: red')
+    console.log(`%c${err.stack}`, 'color: red')
+    return
+  }
+}
