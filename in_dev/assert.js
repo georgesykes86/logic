@@ -19,7 +19,7 @@ function it (description, callBack) {
   }
 }
 
-function describe (description, callback){
+function describe (description, callback) {
   try {
     console.log(`%c${description}`, 'text-decoration: underline')
     callback()
