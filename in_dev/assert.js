@@ -16,12 +16,21 @@ var expect = function (value1) {
         throwError(value1, value2)
       }
 
+      // check values
+
+      if (typeValue1 === '[object Array]' || typeValue1 === '[object Object]') {
+        if (JSON.stringify(value1) !== JSON.stringify(value2)) {
+          throwError(value1, value2)
+        }
+      } else {
+        if (value1 !== value2) {
+          throwError(value1, value2)
+        }
+      };
+
       function throwError(value1, value2){
         throw new Error(`Test failed: expected ${value1} to equal ${value2}`)
       }
-
-      //
-
     }
   }
 }
