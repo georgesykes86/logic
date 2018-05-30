@@ -18,3 +18,5 @@ function it (description, callBack) {
     console.log(`%c${err.message}`, 'color: red')
   }
 }
+
+export { expect, it };
