@@ -1,62 +1,65 @@
-(function(exports){
+(function (exports) {
   exports.expect = function (value1) {
-    function typeMatch(value1, value2){
-      typeValue1 = Object.prototype.toString.call(value1)
+    function throwError(valueOne, valueTwo) {
+      throw new Error(`Test failed: expected ${valueOne} to equal ${valueTwo}`);
+    }
 
-      if (Object.prototype.toString.call(value2)!= typeValue1){
-        throwError(value1, value2)
+    function valueType(valueOne) {
+      return Object.prototype.toString.call(valueOne);
+    }
+
+    function typeMatch(valueOne, valueTwo) {
+      const typeValue1 = valueType(valueOne);
+      const typeValue2 = valueType(valueTwo);
+
+      if (typeValue1 !== typeValue2) {
+        throwError(valueOne, valueTwo);
       }
     }
 
-    function lengthMatch(value1, value2) {
-      if (Object.keys(value1).length !== Object.keys(value2).length){
-        throwError(value1, value2)
+    function lengthMatch(valueOne, valueTwo) {
+      if (Object.keys(valueOne).length !== Object.keys(valueTwo).length) {
+        throwError(valueOne, valueTwo);
       }
     }
 
-    function valueMatch(value1, value2) {
+    function valueMatch(valueOne, valueTwo) {
+      const typeValue1 = valueType(valueOne);
+
       if (typeValue1 === '[object Array]' || typeValue1 === '[object Object]') {
-        if (JSON.stringify(value1) !== JSON.stringify(value2)) {
-          throwError(value1, value2)
+        if (JSON.stringify(valueOne) !== JSON.stringify(valueTwo)) {
+          throwError(valueOne, valueTwo);
         }
-      } else {
-        if (value1 !== value2) {
-          throwError(value1, value2)
-        }
+      } else if (valueOne !== valueTwo) {
+        throwError(valueOne, valueTwo);
       }
-    }
-
-    function throwError(value1, value2) {
-      throw new Error(`Test failed: expected ${value1} to equal ${value2}`)
     }
 
     return {
-      toEqual: function (value2) {
-        typeMatch(value1, value2)
-        lengthMatch(value1, value2)
-        valueMatch(value1, value2)
-      }
-    }
-  }
+      toEqual(value2) {
+        typeMatch(value1, value2);
+        lengthMatch(value1, value2);
+        valueMatch(value1, value2);
+      },
+    };
+  };
 
-  exports.it = function(description, callBack) {
+  exports.it = function (description, callBack) {
     try {
-      callBack()
-      console.log(`%c${description}`, 'color: green')
+      callBack();
+      console.log(`%c${description}`, 'color: green');
+    } catch (err) {
+      console.log(`%c${description}`, 'color: red');
+      console.log(`%c${err.stack}`, 'color: red');
     }
-    catch(err) {
-      console.log(`%c${description}`, 'color: red')
-      console.log(`%c${err.stack}`, 'color: red')
-    }
-  }
+  };
 
-  exports.describe = function(description, callback) {
+  exports.describe = function (description, callback) {
     try {
-      console.log(`%c${description}`, 'text-decoration: underline')
-      callback()
+      console.log(`%c${description}`, 'text-decoration: underline');
+      callback();
+    } catch (err) {
+      console.log(err);
     }
-      catch(err) {
-      console.log(err)
-    }
-  }
+  };
 }(this));
