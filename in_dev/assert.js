@@ -44,7 +44,7 @@
     };
   };
 
-  function Expect(description, status, error) {
+  function Assertion(description, status, error) {
     this.description = description;
     this.status = status;
     if (error) {
@@ -52,21 +52,26 @@
     }
   }
 
+  function AssertionGroup(description, assertions) {
+    this.description = description;
+    this.assertions = assertions;
+  }
+
+  let assertions = [];
+
   exports.it = function (description, callBack) {
     try {
       callBack();
-      return new Expect(description, 'pass');
+      assertions.push(new Assertion(description, 'pass'));
     } catch (err) {
-      return new Expect(description, 'fail', err);
+      assertions.push(new Assertion(description, 'fail', err));
     }
   };
 
   exports.describe = function (description, callback) {
-    try {
-      console.log(`%c${description}`, 'text-decoration: underline');
-      callback();
-    } catch (err) {
-      console.log(err);
-    }
+    callback();
+    const assertionGroup = new AssertionGroup(description, assertions);
+    assertions = [];
+    return assertionGroup;
   };
 }(this));
