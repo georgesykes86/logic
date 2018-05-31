@@ -44,13 +44,20 @@
     };
   };
 
+  function Expect(description, status, error) {
+    this.description = description;
+    this.status = status;
+    if (error) {
+      this.error = error;
+    }
+  }
+
   exports.it = function (description, callBack) {
     try {
       callBack();
-      console.log(`%c${description}`, 'color: green');
+      return new Expect(description, 'pass');
     } catch (err) {
-      console.log(`%c${description}`, 'color: red');
-      console.log(`%c${err.stack}`, 'color: red');
+      return new Expect(description, 'fail', err);
     }
   };
 

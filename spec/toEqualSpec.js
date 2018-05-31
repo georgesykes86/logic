@@ -1,32 +1,16 @@
-function toEqualTest(values, callBack) {
-  let count = 0;
-
-  try {
-    callBack();
-  } catch (err) {
-    console.log(err.message);
-    count += 1;
-  }
-
-  return count;
-}
-
 function equalityCheck(tests, testType) {
-  let Counter = 0;
+  let failCount = 0;
 
   tests.forEach((testPair) => {
-    const result = toEqualTest(testPair, () => {
+    try {
       expect(testPair[0]).toEqual(testPair[1])
-    });
-
-    if (testType === 'pass') {
-      if (result !== 0) { Counter += 1; }
-    } else if (result === 0) {
-      Counter += 1;
+      failCount += testType === 'pass' ? 0 : 1;
+    } catch (err) {
+      failCount += testType === 'fail' ? 0 : 1;
     }
   });
 
-  return Counter;
+  return failCount;
 }
 
 function failTests() {
@@ -50,7 +34,9 @@ function failTests() {
   const failingTestCounter = equalityCheck(tests, testType);
 
   if (failingTestCounter !== 0) {
-    console.log(`%c Number of incorrectly passing tests = ${failingTestCounter}`, 'color: red')
+    console.log(`%cNumber of incorrectly passing tests = ${failingTestCounter}`, 'color: red');
+  } else {
+    console.log('%cAll expected failing tests failing', 'color: green');
   }
 }
 
@@ -69,7 +55,9 @@ function passTests() {
   const passingTestCounter = equalityCheck(tests, testType);
 
   if (passingTestCounter !== 0) {
-    console.log(`%c Number of incorrectly failing tests = ${passingTestCounter}`, 'color: red');
+    console.log(`%cNumber of incorrectly failing tests = ${passingTestCounter}`, 'color: red');
+  } else {
+    console.log('%cAll expected passing tests passing', 'color: green');
   }
 }
 
