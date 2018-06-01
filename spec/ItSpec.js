@@ -2,6 +2,14 @@
 
   const description = 'Description';
   const err = new Error('Fake error');
+  const AssertClass = function(description, status, error) {
+    this.description = description
+    this.status = status;
+    if (error) {
+      this.error = error;
+    }
+  };
+
 
   function run(tests) {
     let failingTests = 0;
@@ -16,24 +24,26 @@
   }
 
   function runPassingTests() {
+    let assertions = [];
     const callback = function () { };
-    const expectObject = it(description, callback);
+    it(description, callback, AssertClass, assertions);
 
     const tests = [
-      function () { expect(expectObject.description).toEqual(description); },
-      function () { expect(expectObject.status).toEqual('pass'); },
+      function () { expect(assertions[0].description).toEqual(description); },
+      function () { expect(assertions[0].status).toEqual('pass'); },
     ];
     return run(tests);
   }
 
   function runFailingTests() {
+    let assertions = [];
     const callback = function () { throw err; };
-    const expectObject = it(description, callback);
+    it(description, callback, AssertClass, assertions);
 
     const tests = [
-      function () { expect(expectObject.description).toEqual(description); },
-      function () { expect(expectObject.status).toEqual('fail'); },
-      function () { expect(expectObject.error).toEqual(err); },
+      function () { expect(assertions[0].description).toEqual(description); },
+      function () { expect(assertions[0].status).toEqual('fail'); },
+      function () { expect(assertions[0].error).toEqual(err); },
     ];
     return run(tests);
   }
